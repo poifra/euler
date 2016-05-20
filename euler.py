@@ -52,8 +52,8 @@ def prob5():
 
 def prob9():
 	for a in range(1,1000):
-		for b in range(2,1000):
-			for c in range(3,1000):
+		for b in range(a,1000):
+			for c in range(b,1000):
 				if a**2 + b**2 == c**2 and a+b+c == 1000:
 					return a*b*c
 	return -1
@@ -190,6 +190,7 @@ def prob17():
 	return sum(numbers)
 
 def prob18():
+	#maximum path I
 	with open('prob18text.txt','r') as f:
 		size = 15
 		data = f.read().split('\n')
@@ -203,10 +204,68 @@ def prob18():
 		return m
 
 def prob19():
-	#counting sundays
-	pass
+	#how many sundays	
+	from datetime import date
+	count = 0
+	for year in range(1901,2001):
+		for month in range(1,13):
+			d = date(year,month,1)
+			if d.weekday() == 6:
+				count += 1
+	return count
 
 def prob20():
 	return utils.sumOfDigits(math.factorial(100))
 
 def prob21():
+	#amicable numbers
+	numbers = []
+	limit = 10000
+
+	for a in range(2,limit):
+		b = utils.sumOfDivisors(a)
+		if b<a and utils.sumOfDivisors(b) == a:
+			print(a,b)
+			numbers.append(a)
+			numbers.append(b)
+
+	print(numbers)
+	return sum(numbers)
+
+
+def prob23():
+	#non-abundant sums
+	#according to magic, erm, maths, all numbers > 28123 can be written as a sum of two abundant numbers.
+	#we are looking for the sum of all numbers that cannot be written as such a sum.
+	limit = 28123
+	is_a_sum = [False]*(limit+1)
+	abundant = []
+	for i in range(12,limit+1):
+		if utils.sumOfDivisors(i) > i:
+			abundant.append(i)
+
+	for i in range(len(abundant)):
+		for j in range(i,len(abundant)):
+			s = abundant[i] + abundant[j]
+			if s <= limit:
+				is_a_sum[s] = True
+			else:
+				break
+
+	s = 0
+	for i,x in enumerate(is_a_sum):
+		if not x:
+			s += i
+	return s
+
+def prob24():
+	from itertools import permutations
+	return list(permutations(range(10)))[999999]
+
+def prob25():
+	limit = 1000
+	a = b = i = 1
+	while len(str(a)) < limit:
+		a,b=b,a+b
+		i+=1
+	return i

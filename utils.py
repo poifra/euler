@@ -19,9 +19,10 @@ def primeFactors(val):
 			return [k] + primeFactors(i) 
 	return [val]
 
-def fact(n):
+def fact(n, proper=False):
 	'''
 	Finds the factors of n.
+	Flag excludes last divisor (ie, returns proper divisors)
 	'''
 	divs = []
 	for x in range(1,int(math.sqrt(n))):
@@ -29,7 +30,10 @@ def fact(n):
 			divs.append(x)
 			divs.append(n//x)
 	divs.sort()
-	return divs
+	if proper:
+		return divs[:-1]
+	else:
+		return divs
 
 def collatz(n):
 	'''
@@ -45,6 +49,39 @@ def collatz(n):
 			lst.append(3*k+1)
 		k = lst[-1]
 	return lst
+
+#limit
+def sumOfDivisors(a):
+	'''
+	Returns the sum of the proper divisors of a
+	'''
+	if a == 1:
+		return 0
+
+	root = int(math.sqrt(a))
+	if root**2 == a: #perfect square
+		s = 1+root
+		root -= 1
+	else:
+		s = 1
+
+	#odd numbers can only have odd numbers as divisors!
+	#however, the converse is not always true
+	if a % 2 == 1:
+		f = 3
+		step = 2
+	else:
+		f = 2
+		step = 1
+
+	while f <= root:
+		if a%f == 0:
+			s = s + f + (a // f)
+		f += step
+	return s
+
+def str_sumOfDigits(s):
+	return int(sumOfDigits(s))
 
 def sumOfDigits(n):
 	'''
