@@ -16,6 +16,10 @@ def prob21():
     print(numbers)
     return sum(numbers)
 
+def prob22():
+    #names scores, the solution I wrote is MIA and I cant bother redoing it.
+    #It's not a hard problem anyway
+    pass
 
 def prob23():
     # non-abundant sums
@@ -59,6 +63,7 @@ def prob25():
 
 def prob26():
     #reciprocal cycles
+    #TODO: finish it!
     limit = 1000
     for d in range(1,limit+1):
         seen = []
@@ -68,45 +73,58 @@ def prob26():
             quotient *= 10
             quotient //= d
     pass
-
+def prob27():
+    #quadratic primes
+    pass
 def prob28():
-    #number spiral diagobals
+    #number spiral diagonals
     #build gruid
-    size = 5
-    grid = [[0]*size]*size
-    direction = 'r'
-    n = 1
-    coords = (size//2, size//2)
-    while n <= size**2:
-        i,j = coords
-        print(i,j)
-        grid[i][j] = n
-        n += 1
-        if direction == 'r':
-            coords = (i+1,j)
-            direction = 'd'
-        elif direction == 'd':
-            coords = (i,j+1)
-            direction = 'l'
-        elif direction == 'l':
-            coords = (i-1,j)
-            direction = 'u'
-        else:
-            coords = (i,j-1)
-            direction = 'r'
-    for i in range(len(grid)):
-        for j in range(len(grid)):
-            print (grid[i][j],end=' ')
-        print('\n',end='')
 
-def prob35():
-    limit = 1000000
-    from collections import deque
-    s = 0
+    # 43 44 45 46 47 48 49
+    # 42 21 22 23 24 25 26
+    # 41 20  7  8  9 10 27
+    # 40 19  6  1  2 11 28
+    # 39 18  5  4  3 12 29
+    # 38 17 16 15 14 13 30
+    # 37 36 35 34 33 32 31
+
+    #upright is squares of odd numbers, 1,9,25,49,81,etc...
+    #downleft is squares+1 of even numbers, 1,5,17,37,65,etc...
+
+
+
+def prob29():
+    #distinct powers
+    #TODO: submit solution
+    limit = 100
+    nums = set()
+    for a in range(2,limit+1):
+        for b in range(2,limit+1):
+            nums.add(a**b)
+    return len(nums)
+def prob30():
+    #sum of fifth powers
+    #TODO : submit solution
+    #we estimate an upper bound to be 6*(9**5) since 5*9**5 has 6 digits.
+    limit = 6*9**5
+    lst = []
+    for i in range(10,limit):
+        s = str(i)
+        temp = 0
+        for char in s:
+            temp += int(char)**5
+        if temp == i:
+            print(i)
+            lst.append(i)
+    return sum(lst)
+
     candidates = [str(x) for x in range(limit) if all(char in '1379' for char in str(x))]
     circulars = set()
     for cand in candidates:
-        if utils.isCircularPrime(cand):
+        if utils.isCircularPrime(cand): 
+            #we could optimize by adding all cyclic permutations when we find one
+            #and avoid testing for all permutations, since we know all of them are
+            #circular primes.
             circulars.add(cand)
     return len(circulars) + 2 #+2 for 2 and 5, which were not included when building candidates
 
