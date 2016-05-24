@@ -49,6 +49,7 @@ def prob24():
     return list(permutations(range(10)))[999999]
 
 def prob25():
+    #1000 digit fibonacci number
     limit = 1000
     a = b = i = 1
     while len(str(a)) < limit:
@@ -57,6 +58,17 @@ def prob25():
     return i
 
 def prob26():
+    #reciprocal cycles
+    limit = 1000
+    for d in range(1,limit+1):
+        seen = []
+        seen.append(d)
+        quotient = 1//d
+        while quotient == 0:
+            quotient *= 10
+            quotient //= d
+    pass
+
 def prob28():
     #number spiral diagobals
     #build gruid
