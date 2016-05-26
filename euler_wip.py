@@ -78,24 +78,14 @@ def prob27():
     pass
 def prob28():
     #number spiral diagonals
-    #build gruid
-
-    # 43 44 45 46 47 48 49
-    # 42 21 22 23 24 25 26
-    # 41 20  7  8  9 10 27
-    # 40 19  6  1  2 11 28
-    # 39 18  5  4  3 12 29
-    # 38 17 16 15 14 13 30
-    # 37 36 35 34 33 32 31
-
-    #upright is squares of odd numbers, 1,9,25,49,81,etc...
-    #downleft is squares+1 of even numbers, 1,5,17,37,65,etc...
-
-
+    #trough analysis, we see that the sum of the corners follow 
+    #a quadratic progression. Once sovled,
+    #it gives us the polynomial 4n² − 6n + 6
+    limit = 1001 
+    return sum(4*i**2 - 6*i + 6 for i in range(3,limit+1,2)) + 1
 
 def prob29():
     #distinct powers
-    #TODO: submit solution
     limit = 100
     nums = set()
     for a in range(2,limit+1):
@@ -104,7 +94,6 @@ def prob29():
     return len(nums)
 def prob30():
     #sum of fifth powers
-    #TODO : submit solution
     #we estimate an upper bound to be 6*(9**5) since 5*9**5 has 6 digits.
     limit = 6*9**5
     lst = []
