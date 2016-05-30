@@ -73,10 +73,10 @@ def genPrimes(n):
     '''
     Implementation of the sieve of Eratosthenes to find all primes below n.
     '''
-    l = [i for i in range(1,n,2)]
+    l = [i for i in range(3,n,2)]
     for x in range(2,int(math.sqrt(n))):
         l = list(filter(lambda d: d%x != 0 or d == x, l))
-    return sorted(l)
+    return sorted([2]+l)
 
 def primeFactors(val):
     '''
@@ -87,6 +87,17 @@ def primeFactors(val):
             i = int(val / k) 
             return [k] + primeFactors(i) 
     return [val]
+
+def isTruncablePrime(n):
+    leftTruncs = [n[:i] for i in range(len(n),0,-1)]
+    rightTrucs = [n[i:] for i in range(len(n))]
+    for l in leftTruncs:
+        if not isPrime(int(l)):
+            return False
+    for r in rightTrucs:
+        if not isPrime(int(r)):
+            return False
+    return True
 
 def isCircularPrime(n):
     '''
@@ -186,3 +197,12 @@ def sumOfDigits(n):
         s += n % 10 #get last digit
         n //= 10 #remove it
     return s
+
+def sumOfFactorialDigits(n):
+    #preload factorials
+    f=[1,1,2,6,24,120,720,5040,40320,362880]
+    s = 0
+    while n:
+        s += f[n%10]
+        n //= 10
+    return s 

@@ -1,113 +1,37 @@
 import utils
 import math
 
-def prob21():
-    #amicable numbers
-    numbers = []
-    limit = 10000
 
-    for a in range(2,limit):
-        b = utils.sumOfDivisors(a)
-        if b<a and utils.sumOfDivisors(b) == a:
-            print(a,b)
-            numbers.append(a)
-            numbers.append(b)
+def prob31():
+    # In England the currency is made up of pound, £, and pence, p, 
+    #and there are eight coins in general circulation:
+    # 1p, 2p, 5p, 10p, 20p, 50p, £1 (100p) and £2 (200p).
+    #how many ways can we make 2 pounds
 
-    print(numbers)
-    return sum(numbers)
+    #adapted from #31's overview
+    #original was pure brute force, but took ~180 seconds to solve
+    target = 200
+    ways = [1] + [0]*target
+    coins = [1,2,5,10,20,50,100,200]
+    for coin in coins:
+        for i in range(coin,target+1):
+            ways[i] += ways[i-coin]
+    return ways[target]
 
-def prob22():
-    #names scores, the solution I wrote is MIA and I cant bother redoing it.
-    #It's not a hard problem anyway
-    pass
+def prob34():
+    #digit factorials
+    #
+    #this one is trivial, because https://en.wikipedia.org/wiki/Factorion
+    #tells us only 145 and 40585 are factorions (excluding 1 and 2 as per problem definition)
+    #But let's pretend Wikipedia didn't tell us about it.
 
-def prob23():
-    # non-abundant sums
-    # according to magic, erm, mathematical analysis, all numbers > 28123 
-    # can be written as a sum of two abundant numbers.
-    # we are looking for the sum of all numbers that cannot be written as such a sum.
-    limit = 28123
-    is_a_sum = [False]*(limit+1)
-    abundant = []
-    for i in range(12,limit+1):
-        if utils.sumOfDivisors(i) > i:
-            abundant.append(i)
+    limit = 1854721 #aka 9!*6 because explanation on wikipedia
+    return sum(i for i in range(10,limit+1) if i == utils.sumOfFactorialDigits(i))
 
-    for i in range(len(abundant)):
-        #we only need to check i < j
-        for j in range(i,len(abundant)):
-            s = abundant[i] + abundant[j]
-            if s <= limit:
-                is_a_sum[s] = True
-            else:
-                break
-
-    s = 0
-    for i,x in enumerate(is_a_sum):
-        if not x:
-            s += i
-    return s
-
-def prob24():
-    from itertools import permutations
-    return list(permutations(range(10)))[999999]
-
-def prob25():
-    #1000 digit fibonacci number
-    limit = 1000
-    a = b = i = 1
-    while len(str(a)) < limit:
-        a,b=b,a+b
-        i+=1
-    return i
-
-def prob26():
-    #reciprocal cycles
-    #TODO: finish it!
-    limit = 1000
-    for d in range(1,limit+1):
-        seen = []
-        seen.append(d)
-        quotient = 1//d
-        while quotient == 0:
-            quotient *= 10
-            quotient //= d
-    pass
-def prob27():
-    #quadratic primes
-    pass
-def prob28():
-    #number spiral diagonals
-    #trough analysis, we see that the sum of the corners follow 
-    #a quadratic progression. Once sovled,
-    #it gives us the polynomial 4n² − 6n + 6
-    limit = 1001 
-    return sum(4*i**2 - 6*i + 6 for i in range(3,limit+1,2)) + 1
-
-def prob29():
-    #distinct powers
-    limit = 100
-    nums = set()
-    for a in range(2,limit+1):
-        for b in range(2,limit+1):
-            nums.add(a**b)
-    return len(nums)
-def prob30():
-    #sum of fifth powers
-    #we estimate an upper bound to be 6*(9**5) since 5*9**5 has 6 digits.
-    limit = 6*9**5
-    lst = []
-    for i in range(10,limit):
-        s = str(i)
-        temp = 0
-        for char in s:
-            temp += int(char)**5
-        if temp == i:
-            print(i)
-            lst.append(i)
-    return sum(lst)
-
-    candidates = [str(x) for x in range(limit) if all(char in '1379' for char in str(x))]
+def prob35():
+    #circular primes
+    limit = int(10e5)
+    candidates = [str(x) for x in range(limit) if all(char in '1379' for char in str(x)) and utils.isPrime(x)]
     circulars = set()
     for cand in candidates:
         if utils.isCircularPrime(cand): 
@@ -127,6 +51,43 @@ def prob36():
         if isPal(x) and isPal(bin(x)[2:]):
             s.append(x)
     return sum(s)
+
+def prob37():
+    #truncable primes
+    limit = int(10e5) #rough guess
+    candidates = utils.genPrimes(limit)
+    lst = []
+    candidates = [str(x) for x in candidates if all(char in '1379' for char in str(x))]
+    for cand in candidates:
+        if utils.isTruncablePrime(cand):
+            lst.append(int(cand))
+    return sum(lst)
+
+def prob40():
+    #someone's constant
+    #created by contataining all positive integers
+    from functools import reduce
+    from operator import mul
+    s = "".join(str(x) for x in (i for i in range(1000000)))
+    prod = s[1]+s[10]+s[100]+s[1000]+s[10000]+s[100000]+s[1000000]
+    return reduce(mul,(int(x) for x in prod))
+
+def prob42():
+    #Made the assumption that longest word can be of length 20,
+    #giving it a maximum possible score of 20*26=520, t(33) =528.
+    limit = 33
+    alphabet = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    triangles = [0.5*n*(n+1) for n in range(1,limit+1)]
+    s = 0
+    with open('prob42text.txt') as f:
+        lines = f.read().split('\n')
+        for word in lines:
+            score = 0
+            for letter in word:
+                score += alphabet.index(letter)
+            if score in triangles:
+                s+=1
+    return s
 
 def prob48():
     limit = 1000
