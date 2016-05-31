@@ -63,6 +63,32 @@ def prob37():
             lst.append(int(cand))
     return sum(lst)
 
+def prob39():
+
+    # If p is the perimeter of a right angle triangle with integral length sides, {a,b,c}, 
+    # there are exactly three solutions for p = 120.
+    # {20,48,52}, {24,45,51}, {30,40,50}
+    # For which value of p ≤ 1000, is the number of solutions maximised?
+    limit = 1000
+    triplets = []
+    maxSols = 0
+    maxP = 0 
+    for p in range(12,limit):
+        nbSols = 0
+        print(p)
+        for n in range(limit):
+            for m in range(n,limit):
+                a = m**2 - n**2
+                b = 2*m*n
+                c = m**2 + n**2
+                if (a+b+c == p):
+                    nbSols += 1
+        if nbSols > maxSols:
+            maxSols = nbSols
+            maxP = p
+    return maxP
+
+
 def prob40():
     #someone's constant
     #created by contataining all positive integers
@@ -73,9 +99,8 @@ def prob40():
     return reduce(mul,(int(x) for x in prod))
 
 def prob42():
-    #Made the assumption that longest word can be of length 20,
-    #giving it a maximum possible score of 20*26=520, t(33) =528.
-    limit = 33
+    #the longest word in the file is of length 14, 14*20 = 364, closest triangle is t(26) = 351 
+    limit = 26
     alphabet = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     triangles = [0.5*n*(n+1) for n in range(1,limit+1)]
     s = 0
