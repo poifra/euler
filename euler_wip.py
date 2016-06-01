@@ -54,14 +54,18 @@ def prob36():
 
 def prob37():
     #truncable primes
-    limit = int(10e5) #rough guess
-    candidates = utils.genPrimes(limit)
+    limit = int(10e5) #rough guess, for all we know the 11th could be the last mersenne prime found.
     lst = []
-    candidates = [str(x) for x in candidates if all(char in '1379' for char in str(x))]
+    candidates = [str(x) for x in range(10,limit) 
+        if all(char in '1379' for char in str(x))
+        and utils.isPrime(x)]
+
     for cand in candidates:
         if utils.isTruncablePrime(cand):
             lst.append(int(cand))
-    return sum(lst)
+    assert len(lst) == 9
+    #if we pass the assert, we win
+    return sum(lst) + 23 + 53 #those where not in the candidates
 
 def prob39():
 
@@ -69,24 +73,18 @@ def prob39():
     # there are exactly three solutions for p = 120.
     # {20,48,52}, {24,45,51}, {30,40,50}
     # For which value of p ≤ 1000, is the number of solutions maximised?
-    limit = 1000
-    triplets = []
-    maxSols = 0
-    maxP = 0 
-    for p in range(12,limit):
-        nbSols = 0
-        print(p)
-        for n in range(limit):
-            for m in range(n,limit):
-                a = m**2 - n**2
-                b = 2*m*n
-                c = m**2 + n**2
-                if (a+b+c == p):
-                    nbSols += 1
-        if nbSols > maxSols:
-            maxSols = nbSols
-            maxP = p
-    return maxP
+
+    limit = 120
+    lst = []
+    for n in range(1,limit+1):
+        for m in range(n,limit+1):
+            a = m**2 - n**2
+            b = 2*n*m
+            c = m**2 + n**2
+            if a > limit or b > limit or c > limit:
+                break
+            lst.append((a,b,c))
+    return lst
 
 
 def prob40():
@@ -98,6 +96,13 @@ def prob40():
     prod = s[1]+s[10]+s[100]+s[1000]+s[10000]+s[100000]+s[1000000]
     return reduce(mul,(int(x) for x in prod))
 
+def prob41():
+    #pandigital primes
+    limit = int('9'*9) #any number containing more than 10 digits cannot be pandigital
+    for x in range(limit,1,-1):
+        if utils.isPrime(x):
+            if all(str(x).count(y) == 1 for y in '123456789'):
+                return x
 def prob42():
     #the longest word in the file is of length 14, 14*20 = 364, closest triangle is t(26) = 351 
     limit = 26
