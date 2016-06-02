@@ -74,19 +74,18 @@ def prob39():
     # {20,48,52}, {24,45,51}, {30,40,50}
     # For which value of p ≤ 1000, is the number of solutions maximised?
 
-    limit = 120
-    lst = []
-    for n in range(1,limit+1):
-        for m in range(n,limit+1):
-            a = m**2 - n**2
-            b = 2*n*m
-            c = m**2 + n**2
-            if a > limit or b > limit or c > limit:
-                break
-            lst.append((a,b,c))
-    return lst
-
-
+    limit = 1000
+    maxP = 0
+    maxSols = 0
+    for p in range(1,limit+1):
+        nbSols = 0
+        for a in range(1,limit):
+            if p*(p-2*a) % 2*(p-a) == 0: #this division must be an integer
+                nbSols += 1
+        if nbSols > maxSols:
+            maxSols = nbSols
+            maxP = p
+    return maxP
 def prob40():
     #someone's constant
     #created by contataining all positive integers
