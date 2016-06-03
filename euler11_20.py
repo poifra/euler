@@ -171,3 +171,46 @@ def prob19():
 
 def prob20():
     return utils.sumOfDigits(math.factorial(100))
+
+if __name__=='__main__':
+    import time
+
+    start = time.time()
+    print("prob 11",prob11())
+    print("Time taken for prob 11",time.time()-start)
+
+    start = time.time()
+    print("prob 12",prob12())
+    print("Time taken for prob 12",time.time()-start)
+
+    start = time.time()
+    print("prob 13",prob13())
+    print("Time taken for prob 13",time.time()-start)
+
+    start = time.time()
+    print("prob 14",prob14())
+    print("Time taken for prob 14",time.time()-start)
+
+    start = time.time()
+    print("prob 15",prob15())
+    print("Time taken for prob 15",time.time()-start)
+
+    start = time.time()
+    print("prob 16",prob16())
+    print("Time taken for prob 16",time.time()-start)
+
+    start = time.time()
+    print("prob 17",prob16())
+    print("Time taken for prob 17",time.time()-start)
+
+    start = time.time()
+    print("prob 18",prob18())
+    print("Time taken for prob 18",time.time()-start)
+
+    start = time.time()
+    print("prob 19",prob19())
+    print("Time taken for prob 19",time.time()-start)
+
+    start = time.time()
+    print("prob 20",prob20())
+    print("Time taken for prob 20",time.time()-start)

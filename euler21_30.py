@@ -9,11 +9,9 @@ def prob21():
     for a in range(2,limit):
         b = utils.sumOfDivisors(a)
         if b<a and utils.sumOfDivisors(b) == a:
-            print(a,b)
             numbers.append(a)
             numbers.append(b)
 
-    print(numbers)
     return sum(numbers)
 
 def prob22():
@@ -63,17 +61,27 @@ def prob25():
 
 def prob26():
     #reciprocal cycles
-    #TODO: finish it!
-    #Fermat's little theorem can save us from the brute force
     limit = 1000
-    for d in range(1,limit+1):
-        seen = []
-        seen.append(d)
-        quotient = 1//d
-        while quotient == 0:
-            quotient *= 10
-            quotient //= d
-    pass
+    seqLen = 0
+    maxI = 0
+    for i in range(1,limit):
+        if seqLen >= i:
+            break
+
+        seen = [0]*(i+1)
+        value = 1
+        pos = 0
+        while seen[value] == 0 and value != 0: #while we havent seen the current value and there's a remainder
+            seen[value] = pos
+            value *= 10
+            value %= i
+            pos += 1
+        if pos - seen[value] > seqLen:
+            seqLen = pos - seen[value]
+            maxI = i
+    return maxI
+
+
 def prob27():
     # Considering quadratics of the form:
 
@@ -129,3 +137,46 @@ def prob30():
             print(i)
             lst.append(i)
     return sum(lst)
+
+if __name__=='__main__':
+    import time
+
+    start = time.time()
+    print("prob 21",prob21())
+    print("Time taken for prob 21",time.time()-start)
+
+    start = time.time()
+    print("prob 22",prob22())
+    print("Time taken for prob 22",time.time()-start)
+
+    start = time.time()
+    print("prob 23",prob23())
+    print("Time taken for prob 23",time.time()-start)
+
+    start = time.time()
+    print("prob 24",prob24())
+    print("Time taken for prob 24",time.time()-start)
+
+    start = time.time()
+    print("prob 25",prob25())
+    print("Time taken for prob 25",time.time()-start)
+
+    start = time.time()
+    print("prob 26",prob26())
+    print("Time taken for prob 26",time.time()-start)
+
+    start = time.time()
+    print("prob 27",prob26())
+    print("Time taken for prob 27",time.time()-start)
+
+    start = time.time()
+    print("prob 28",prob28())
+    print("Time taken for prob 28",time.time()-start)
+
+    start = time.time()
+    print("prob 29",prob29())
+    print("Time taken for prob 29",time.time()-start)
+
+    start = time.time()
+    print("prob 30",prob30())
+    print("Time taken for prob 30",time.time()-start)

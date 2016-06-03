@@ -57,3 +57,30 @@ def prob9():
                 if a**2 + b**2 == c**2 and a+b+c == 1000:
                     return a*b*c
     return -1
+
+if __name__=='__main__':
+    import time
+
+    start = time.time()
+    print("prob 1",prob1())
+    print("Time taken for prob 1",time.time()-start)
+
+    start = time.time()
+    print("prob 2",prob2())
+    print("Time taken for prob 2",time.time()-start)
+
+    start = time.time()
+    print("prob 3",prob3())
+    print("Time taken for prob 3",time.time()-start)
+
+    start = time.time()
+    print("prob 4",prob4())
+    print("Time taken for prob 4",time.time()-start)
+
+    start = time.time()
+    print("prob 5",prob5())
+    print("Time taken for prob 5",time.time()-start)
+
+    start = time.time()
+    print("prob 9",prob9())
+    print("Time taken for prob 9",time.time()-start)
