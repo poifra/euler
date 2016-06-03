@@ -14,6 +14,47 @@ def prob31():
             ways[i] += ways[i-coin]
     return ways[target]
 
+def prob32():
+    pandigitals = set()
+    limit = int(1e4)
+    for a in range(limit):
+        for b in range(a,limit):
+            conc = str(a)+str(b)+str(a*b)
+            if len(conc) > 9:
+                break
+            if all(conc.count(y)==1 for y in '123456789'):
+                pandigitals.add(a*b)
+    return sum(pandigitals)          
+
+def prob33():
+    from fractions import Fraction
+    def commonDigit(a,b):
+        for c in str(a):
+            if c in str(b):
+                return c
+        return None
+    #digit cancelling fractions
+    limit = 100
+    fractions = []
+    for a in range(10,limit):
+        for b in range(a+1,limit):
+            toCancel = commonDigit(a,b)
+            if toCancel and toCancel != '0':
+                num = list(str(a))
+                denum = list(str(b))
+                num.remove(toCancel)
+                denum.remove(toCancel)
+                num = int("".join(num))
+                denum = int("".join(denum))
+                if denum != 0 and a/b == num/denum:
+                    fractions.append((a,b))
+    prodA = 1
+    prodB = 1
+    for a,b in fractions:
+        prodA *= a
+        prodB *= b
+    return Fraction(prodA,prodB).denominator
+
 def prob34():
     #digit factorials
     #
