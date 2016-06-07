@@ -3,10 +3,11 @@ import math
 
 def prob41():
     #pandigital primes
-    limit = int('9'*9) #any number containing more than 10 digits cannot be pandigital
-    for x in range(limit,1,-1):
-        if utils.isPrime(x):
-            if all(str(x).count(y) == 1 for y in '123456789'):
+    limit = 7654321 #we exploit the property that if the sum of digits of a number is divisible by 3, the number is divisible by 3
+    numbers = "".join([str(i) for i in range(1,len(str(limit))+1)])
+    for x in range(limit,1,-2):
+        if all(str(x).count(y) == 1 for y in numbers):
+            if utils.isPrime(x):
                 return x
 
 def prob42():
@@ -50,6 +51,52 @@ def prob44():
                 if d in pentagons:
                     if minD > d:
                         return d
+def prob45():
+    #triangular, pentagonal, hexagonal
+    #using dictionaries because much faster lookup
+    limit = 100000
+    triang = {int(n*(n+1)/2):n for n in range(2,limit)}
+    penta = {int((n*(3*n-1))/2):n for n in range(2,limit)}
+    hexa = {int(n*(2*n-1)):n for n in range(2,limit)}
+    for n in triang:
+        if n in penta and n in hexa and n > 40755:
+            return n
+
+def prob46():
+    #goldbach's other conjecture:
+    '''
+    It was proposed by Christian Goldbach that every odd composite number 
+    can be written as the sum of a prime and twice a square.
+
+    9 = 7 + 2×1²
+    15 = 7 + 2×2²
+    21 = 3 + 2×3²
+    25 = 7 + 2×3²
+    27 = 19 + 2×2²
+    33 = 31 + 2×1²
+
+    It turns out that the conjecture was false.
+    What is the smallest odd composite that cannot be written as 
+    the sum of a prime and twice a square?
+    '''
+    from math import sqrt
+    limit=6000
+    primes = utils.genPrimes(limit)
+    compositeOdds = [i for i in range(9,limit,2) if not utils.isPrime(i)]
+    for i in compositeOdds:
+        canBeWritten = False
+        for n in primes:
+            if (i-n) % 2 == 0:
+                #we need to check if (i-n)/2  is a perfect square. if it is, i can be written as described
+                num = (i-n)/2
+                if num < 0: #this means we found no suitable prime
+                    break
+                if not (math.sqrt(num)-int(math.sqrt(num))):
+                    canBeWritten=True
+                    break
+        if not canBeWritten:
+            return i
+
 def prob48():
     limit = 1000
     i = 0

@@ -40,6 +40,7 @@ def prob33():
         for b in range(a+1,limit):
             toCancel = commonDigit(a,b)
             if toCancel and toCancel != '0':
+                #type shenanigans
                 num = list(str(a))
                 denum = list(str(b))
                 num.remove(toCancel)
@@ -68,7 +69,9 @@ def prob34():
 def prob35():
     #circular primes
     limit = int(10e5)
-    candidates = [str(x) for x in range(limit) if all(char in '1379' for char in str(x)) and utils.isPrime(x)]
+    candidates = [str(x) for x in range(limit) 
+        if all(char in '1379' for char in str(x)) 
+            and utils.isPrime(x)]
     circulars = set()
     for cand in candidates:
         if utils.isCircularPrime(cand): 
@@ -95,7 +98,7 @@ def prob37():
     lst = []
     candidates = [str(x) for x in range(10,limit) 
         if all(char in '1379' for char in str(x))
-        and utils.isPrime(x)]
+            and utils.isPrime(x)]
 
     for cand in candidates:
         if utils.isTruncablePrime(cand):
@@ -103,6 +106,36 @@ def prob37():
     assert len(lst) == 9
     #if we pass the assert, we win
     return sum(lst) + 23 + 53 #those where not in the candidates
+
+def prob38():
+    #Pandigital multiples
+    '''
+    Take the number 192 and multiply it by each of 1, 2, and 3:
+
+        192 × 1 = 192
+        192 × 2 = 384
+        192 × 3 = 576
+
+    By concatenating each product we get the 1 to 9 pandigital, 192384576. 
+    We will call 192384576 the concatenated product of 192 and (1,2,3)
+    The same can be achieved by starting with 9 and multiplying by 1, 2, 3, 4, and 5, 
+    giving the pandigital, 918273645, which is the concatenated product of 9 and (1,2,3,4,5).
+    What is the largest 1 to 9 pandigital 9-digit number that can be formed as the concatenated product of an integer with (1,2, ... , n) where n > 1?
+    '''
+    limit = 10000
+    largest = 0
+    for i in range(limit):
+        concat = ''
+        n = 1
+        while len(concat) < 9:
+            concat += str(i*n)
+            n+=1
+        if len(concat) != 9:
+            continue
+        if all(concat.count(y) == 1 for y in '123456789'):
+            if int(concat) > largest:
+                largest = int(concat)
+    return largest
 
 def prob39():
 
@@ -123,6 +156,7 @@ def prob39():
             maxSols = nbSols
             maxP = p
     return maxP
+
 def prob40():
     #someone's constant
     #created by contataining all positive integers
