@@ -1,108 +1,18 @@
 import utils
 import math
 
-def prob41():
-    #pandigital primes
-    limit = 7654321 #we exploit the property that if the sum of digits of a number is divisible by 3, the number is divisible by 3
-    numbers = "".join([str(i) for i in range(1,len(str(limit))+1)])
-    for x in range(limit,1,-2):
-        if all(str(x).count(y) == 1 for y in numbers):
-            if utils.isPrime(x):
-                return x
-
-def prob42():
-    #the longest word in the file is of length 14, 14*20 = 364, closest triangle is t(26) = 351 
-    limit = 26
-    alphabet = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    triangles = [0.5*n*(n+1) for n in range(1,limit+1)]
-    s = 0
-    with open('prob42text.txt') as f:
-        lines = f.read().split('\n')
-        for word in lines:
-            score = 0
-            for letter in word:
-                score += alphabet.index(letter)
-            if score in triangles:
-                s+=1
-    return s
-
-def prob43():
-    #pandigital number with some property
-    #dat 1 liner tho, splitted for readability
-    from itertools import permutations as perm
-    subset = [x for x in ["".join(y) for y in perm('0123456789') if y[0] != '0'] 
-        if int(x[1]+x[2]+x[3])%2==0 
-            and int(x[2]+x[3]+x[4])%3==0 
-            and int(x[3]+x[4]+x[5])%5==0 
-            and int(x[4]+x[5]+x[6])%7==0 
-            and int(x[5]+x[6]+x[7])%11==0 
-            and int(x[6]+x[7]+x[8])%13==0 
-            and int(x[7]+x[8]+x[9])%17==0]
-    return sum(map(int,subset))
-
-def prob44():
-    from math import fabs
-    pentagons = [(n*(3*n-1))/2 for n in range(1,2500)]
-    minD = int(10e10)
-    for j in pentagons[::-1]:
-        for k in pentagons[::-1]:
-            if j+k in pentagons:
-                d = int(fabs(j-k))
-                if d in pentagons:
-                    if minD > d:
-                        return d
-def prob45():
-    #triangular, pentagonal, hexagonal
-    #using dictionaries because much faster lookup
-    limit = 100000
-    triang = {int(n*(n+1)/2):n for n in range(2,limit)}
-    penta = {int((n*(3*n-1))/2):n for n in range(2,limit)}
-    hexa = {int(n*(2*n-1)):n for n in range(2,limit)}
-    for n in triang:
-        if n in penta and n in hexa and n > 40755:
-            return n
-
-def prob46():
-    #goldbach's other conjecture:
+def prob52():
     '''
-    It was proposed by Christian Goldbach that every odd composite number 
-    can be written as the sum of a prime and twice a square.
-
-    9 = 7 + 2×1²
-    15 = 7 + 2×2²
-    21 = 3 + 2×3²
-    25 = 7 + 2×3²
-    27 = 19 + 2×2²
-    33 = 31 + 2×1²
-
-    It turns out that the conjecture was false.
-    What is the smallest odd composite that cannot be written as 
-    the sum of a prime and twice a square?
+    Permutted multiples
+    It can be seen that the number, 125874, and its double, 251748, contain exactly the same digits, but in a different order.
+    Find the smallest positive integer, x, such that 2x, 3x, 4x, 5x, and 6x, contain the same digits.
     '''
-    from math import sqrt
-    limit=6000
-    primes = utils.genPrimes(limit)
-    compositeOdds = [i for i in range(9,limit,2) if not utils.isPrime(i)]
-    for i in compositeOdds:
-        canBeWritten = False
-        for n in primes:
-            if (i-n) % 2 == 0:
-                #we need to check if (i-n)/2  is a perfect square. if it is, i can be written as described
-                num = (i-n)/2
-                if num < 0: #this means we found no suitable prime
-                    break
-                if not (math.sqrt(num)-int(math.sqrt(num))):
-                    canBeWritten=True
-                    break
-        if not canBeWritten:
+    found = False
+    i = 1
+    while not(found):
+        if utils.is_perm(i,2*i) and utils.is_perm(i,3*i) and utils.is_perm(i,4*i) and utils.is_perm(i,5*i) and utils.is_perm(i,6*i):
             return i
-
-def prob48():
-    limit = 1000
-    i = 0
-    for x in range(1,limit+1):
-        i += x**x
-    return i
+        i += 1
 
 def prob53():
     #combinatorics selections
@@ -134,3 +44,51 @@ def prob59():
     possibilities = list(comb([i for i in range(97,123)],3))
     with open('prob59text.txt') as f:
         numbers = list(map(int,f.read().split(',')))
+
+def prob60():
+    import itertools
+    combs = itertools.combinations(utils.genPrimes(int(1e5)),5)
+    for combo in combs:
+        concats = itertools.combinations(combo,2)
+        allPrimes = True
+        for conc in concats:
+            leftRight = int(str(conc[0])+str(conc[1]))
+            rightLeft = int(str(conc[1])+str(conc[0]))
+            if not utils.isPrime(leftRight) or not utils.isPrime(rightLeft):
+                allPrimes = False
+            if not allPrimes:
+                break
+        if allPrimes:
+            return combo,sum(combo)
+
+def prob67():
+    '''
+    max sum II, non bruteforce edition
+    This is the same as prob 18, but with a much bigger scale.
+    This time we use dynamic programming, we add up maximums, starting from the bottom of the triangle.
+    '''
+    highest = 0
+    size = 100
+    lst = [[]*size]*size
+    with open('prob67text.txt','r') as f:
+        data = f.read().split('\n')
+        for i,line in enumerate(data):
+            numbers = line.split(' ')
+            lst[i] = list(map(int,numbers)) + [0]*(size-len(numbers))
+
+    for i in range(size-2, -1, -1):
+        for j in range(i+1):
+            lst[i][j] += max(lst[i+1][j],lst[i+1][j+1])
+    return lst[0][0]
+
+def prob92():
+    limit = int(1e7)
+    count = 0
+    for i in range(1,limit):
+        n = i
+        while n != 1 and n != 89:
+            n = sum(int(k)**2 for k in list(str(n)))
+        if n==1:
+     #       print(i)
+            count += 1
+    return limit - count

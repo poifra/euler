@@ -1,5 +1,6 @@
 import utils
 import math
+
 def prob1():
     limit = 1000
     return sum([i for i in range(limit) if i % 3 == 0 or i % 5 == 0])

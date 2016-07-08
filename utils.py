@@ -69,12 +69,12 @@ def isPrime(n):
     if n < 341550071728321: 
         return not any(_try_composite(a, d, n, s) for a in (2, 3, 5, 7, 11, 13, 17))
 
-def genPrimes(n):
+def genPrimes(maxBound, lowerBound=3):
     '''
     Implementation of the sieve of Eratosthenes to find all primes below n.
     '''
-    l = [i for i in range(3,n,2)]
-    for x in range(2,int(math.sqrt(n))):
+    l = [i for i in range(lowerBound,maxBound,2)]
+    for x in range(2,int(math.sqrt(maxBound))):
         l = list(filter(lambda d: d%x != 0 or d == x, l))
     return sorted([2]+l)
 
@@ -206,3 +206,18 @@ def sumOfFactorialDigits(n):
         s += f[n%10]
         n //= 10
     return s 
+
+def is_perm(a,b):
+    '''
+    Returns true if a is a permutation of b's digits
+    '''
+    if a==b:
+        return True
+    s_a = str(a)
+    s_b = str(b)
+    if len(s_a) != len(s_b):
+        return False
+    for c in s_a:
+        if c not in s_b or s_a.count(c) != s_b.count(c):
+            return False
+    return True 
