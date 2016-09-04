@@ -220,4 +220,6 @@ def is_perm(a,b):
     for c in s_a:
         if c not in s_b or s_a.count(c) != s_b.count(c):
             return False
-    return True 
+    return True
+
+    
