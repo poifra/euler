@@ -127,6 +127,12 @@ def prob67():
             lst[i][j] += max(lst[i+1][j],lst[i+1][j+1])
     return lst[0][0]
 
+
+def prob72():
+    lim = 1000000
+    for n in range(1,lim+1):
+
+
 def prob92():
     limit = int(1e7)
     count = 0
@@ -238,6 +244,7 @@ def prob96():
         numbers.append(int("".join(map(str,c[0][:3])))) #this captures the first tree numbers of each solution
         ppSudokuMat(c)
     return sum(numbers)
+
 
 def prob97():
     '''
