@@ -19,13 +19,13 @@ def prob2():
     return s
 
 def prob3():
-    return utils.prime_factors(600851475143)[-1::]
+    return utils.primeFactors(600851475143)[-1::]
 
 def prob4():
     def isPal(n):
         s = str(n)
         return s[::-1] == s
-    max = 0
+    maxPal = 0
     for i in range(100,1000):
         for j in range(i,1000):
             res = i*j
@@ -101,7 +101,7 @@ def prob9():
                     return a*b*c
     return -1
 
-if __name__=='__main__':
+def launch():
     import time
 
     start = time.time()

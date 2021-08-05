@@ -172,7 +172,7 @@ def prob19():
 def prob20():
     return utils.sumOfDigits(math.factorial(100))
 
-if __name__=='__main__':
+def launch():
     import time
 
     start = time.time()

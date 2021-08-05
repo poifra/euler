@@ -138,7 +138,7 @@ def prob30():
             lst.append(i)
     return sum(lst)
 
-if __name__=='__main__':
+def launch():
     import time
 
     start = time.time()
