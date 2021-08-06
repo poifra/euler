@@ -10,6 +10,9 @@ import euler_wip
 #euler21_30.launch()
 import time
 
+#
+#print(euler41_50.prob50())
+#
 start = time.time()
-print(euler41_50.prob50())
+print(euler_wip.prob57())
 print("Time taken for prob 50",time.time() - start)

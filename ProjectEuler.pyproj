@@ -28,6 +28,9 @@
     <Compile Include="euler21_30.py" />
     <Compile Include="euler31_40.py" />
     <Compile Include="euler41_50.py" />
+    <Compile Include="euler51_60.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="euler_wip.py" />
     <Compile Include="ProjectEuler.py">
       <SubType>Code</SubType>
