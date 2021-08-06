@@ -2,8 +2,7 @@ import utils
 import math
 
 def prob11():
-    grid = [
-    [8, 2, 22, 97, 38, 15, 0, 40, 0, 75, 4, 5, 7, 78, 52, 12, 50, 77, 91, 8],
+    grid = [[8, 2, 22, 97, 38, 15, 0, 40, 0, 75, 4, 5, 7, 78, 52, 12, 50, 77, 91, 8],
     [49, 49, 99, 40, 17, 81, 18, 57, 60, 87, 17, 40, 98, 43, 69, 48, 4, 56, 62, 0],
     [81, 49, 31, 73, 55, 79, 14, 29, 93, 71, 40, 67, 53, 88, 30, 3, 49, 13, 36, 65],
     [52, 70, 95, 23, 4, 60, 11, 42, 69, 24, 68, 56, 1, 32, 56, 71, 37, 2, 36, 91],
@@ -26,29 +25,29 @@ def prob11():
     size = 20
     temp = 0
     #horizontal
-    for x in range(size-4):
+    for x in range(size - 4):
         for y in range(size):
-            res = grid[x][y]*grid[x+1][y]*grid[x+2][y]*grid[x+3][y]
+            res = grid[x][y] * grid[x + 1][y] * grid[x + 2][y] * grid[x + 3][y]
             if res > temp:
                 temp = res
     #vertical
     for x in range(size):
-        for y in range(size-4):
-            res = grid[x][y]*grid[x][y+1]*grid[x][y+2]*grid[x][y+3]
+        for y in range(size - 4):
+            res = grid[x][y] * grid[x][y + 1] * grid[x][y + 2] * grid[x][y + 3]
             if res > temp:
                 temp = res
 
     #diagonal, going left to right
-    for x in range(size-4):
-        for y in range(size-4):
-            res = grid[x][y]*grid[x+1][y+1]*grid[x+2][y+2]*grid[x+3][y+3]
+    for x in range(size - 4):
+        for y in range(size - 4):
+            res = grid[x][y] * grid[x + 1][y + 1] * grid[x + 2][y + 2] * grid[x + 3][y + 3]
             if res > temp:
                 temp = res
 
     #diagonal, going right to left
-    for x in range(size-4):
+    for x in range(size - 4):
         for y in range(3,size):
-            res = grid[x][y]*grid[x+1][y-1]*grid[x+2][y-2]*grid[x+3][y-3]
+            res = grid[x][y] * grid[x + 1][y - 1] * grid[x + 2][y - 2] * grid[x + 3][y - 3]
             if res > temp:
                 temp = res
 
@@ -59,7 +58,7 @@ def prob12():
     nbDiv = 0
     i = 1
     while nbDiv < limit:
-        triangular = (i * (i+1))/2
+        triangular = (i * (i + 1)) / 2
         nbDiv = len(utils.fact(triangular))
         i+=1
     return triangular
@@ -67,7 +66,7 @@ def prob12():
 def prob13():
     with open('prob13text.txt','r') as f:
         data = f.read().split('\n')
-        data = data[:len(data)-1] #remove last split, which is NaN.
+        data = data[:len(data) - 1] #remove last split, which is NaN.
         s = 0
         for nbr in data:
             s+= int(nbr)
@@ -93,15 +92,15 @@ def prob15():
     '''
     x = 20
     y = 20
-    return math.factorial(x+y)/(math.factorial(x)*math.factorial(y))
+    return math.factorial(x + y) / (math.factorial(x) * math.factorial(y))
 
 def prob16():
-    s = str(2**1000)
+    s = str(2 ** 1000)
     return sum([int(i) for i in s])
 
 
 def prob17():
-    numbers =  [0] * 1001
+    numbers = [0] * 1001
 
     numbers[1:21] = map(len,["one","two","three","four","five","siz","seven","eight","nine","ten",
         "eleven","twelve","thirteen","fourteen","fifteen","sixteen","seventeen","eighteen","nineteen","twenty"])
@@ -119,47 +118,49 @@ def prob17():
         if not numbers[temp]:
             if temp // 1000:
                 numbers[i] += numbers[temp // 1000] + len("thousand")
-                temp = temp - (1000*(temp // 1000))
+                temp = temp - (1000 * (temp // 1000))
             if temp // 100:
                 numbers[i] += numbers[temp // 100] + len("hundred")
-                temp = temp - (100*(temp//100))
+                temp = temp - (100 * (temp // 100))
                 if temp > 0:
                     numbers[i] += len("and")
             if temp <= 20 or temp % 10 == 0:
                 numbers[i] += numbers[temp]
             else:
-                numbers[i] += numbers[temp - (temp%10)]
-                numbers[i] += numbers[temp - (10*(temp//10))]
+                numbers[i] += numbers[temp - (temp % 10)]
+                numbers[i] += numbers[temp - (10 * (temp // 10))]
 
     return sum(numbers)
 
 def prob18():
     # maximum path I
-    # dynamic programming is a better idea, but this will wait until prob 67 which is the same as this 
+    # dynamic programming is a better idea, but this will wait until prob 67
+    # which is the same as this
     # but unsolvable by brute force
     with open('prob18text.txt','r') as f:
         size = 15
         data = f.read().split('\n')
-        lst = [[]*size]*size
+        lst = [[] * size] * size
         for i,line in enumerate(data):
             numbers = line.split(' ')
-            lst[i] = list(map(int,numbers)) + [0]*(size-len(numbers))
+            lst[i] = list(map(int,numbers)) + [0] * (size - len(numbers))
 
         highest = 0
-        possiblePaths = 2**(len(lst)-1)
-        #since we have two choices at each level, we can represent the path as a binary string.
+        possiblePaths = 2 ** (len(lst) - 1)
+        #since we have two choices at each level, we can represent the path as
+        #a binary string.
         for i in range(possiblePaths):
             temp = lst[0][0]
             index = 0
-            for j in range(len(lst)-1):
+            for j in range(len(lst) - 1):
                 index = index + (i >> j & 1)
-                temp += lst[j+1][index]
+                temp += lst[j + 1][index]
             if temp > highest:
                 highest = temp
         return highest
 
 def prob19():
-    #how many sundays   
+    #how many sundays
     from datetime import date
     count = 0
     for year in range(1901,2001):
@@ -177,40 +178,40 @@ def launch():
 
     start = time.time()
     print("prob 11",prob11())
-    print("Time taken for prob 11",time.time()-start)
+    print("Time taken for prob 11",time.time() - start)
 
     start = time.time()
     print("prob 12",prob12())
-    print("Time taken for prob 12",time.time()-start)
+    print("Time taken for prob 12",time.time() - start)
 
     start = time.time()
     print("prob 13",prob13())
-    print("Time taken for prob 13",time.time()-start)
+    print("Time taken for prob 13",time.time() - start)
 
     start = time.time()
     print("prob 14",prob14())
-    print("Time taken for prob 14",time.time()-start)
+    print("Time taken for prob 14",time.time() - start)
 
     start = time.time()
     print("prob 15",prob15())
-    print("Time taken for prob 15",time.time()-start)
+    print("Time taken for prob 15",time.time() - start)
 
     start = time.time()
     print("prob 16",prob16())
-    print("Time taken for prob 16",time.time()-start)
+    print("Time taken for prob 16",time.time() - start)
 
     start = time.time()
     print("prob 17",prob16())
-    print("Time taken for prob 17",time.time()-start)
+    print("Time taken for prob 17",time.time() - start)
 
     start = time.time()
     print("prob 18",prob18())
-    print("Time taken for prob 18",time.time()-start)
+    print("Time taken for prob 18",time.time() - start)
 
     start = time.time()
     print("prob 19",prob19())
-    print("Time taken for prob 19",time.time()-start)
+    print("Time taken for prob 19",time.time() - start)
 
     start = time.time()
     print("prob 20",prob20())
-    print("Time taken for prob 20",time.time()-start)
+    print("Time taken for prob 20",time.time() - start)
