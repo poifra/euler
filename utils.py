@@ -21,7 +21,7 @@ def _try_composite(a, d, n, s):
 	if pow(a, d, n) == 1:
 		return False
 	for i in range(s):
-		if pow(a,2**i * d, n) == n-1:
+		if pow(a,2 ** i * d, n) == n - 1:
 			return False
 	return True
 
@@ -47,11 +47,11 @@ def isPrime(n):
 	if n in _known_primes:
 		return True
 
-	if any((n%k) == 0 for k in _known_primes):
+	if any((n % k) == 0 for k in _known_primes):
 		return False
 
-	#write n-1 as 2**s * d 
-	d, s = n-1, 0
+	#write n-1 as 2**s * d
+	d, s = n - 1, 0
 	while d % 2 != 0:
 		d, s = d >> 1, s + 1
 
@@ -82,11 +82,11 @@ def genPrimes(n, lowerBound=0):
 	top = len(sieve)
 	for si in sieve:
 		if si:
-			bottom = (si*si - 3) // 2
+			bottom = (si * si - 3) // 2
 			if bottom >= top:
 				break
 			sieve[bottom::si] = [0] * -((bottom - top) // si)
-	return [2]*(lowerBound<2) + [el for el in sieve if el and el > lowerBound]
+	return [2] * (lowerBound < 2) + [el for el in sieve if el and el > lowerBound]
 
 
 def primeFactors(val):
@@ -137,9 +137,9 @@ def fact(n, proper=False):
 	'''
 	divs = []
 	for x in range(1, int(math.sqrt(n))):
-		if n%x == 0:
+		if n % x == 0:
 			divs.append(x)
-			divs.append(n//x)
+			divs.append(n // x)
 	divs.sort()
 	if proper:
 		return divs[:-1]
@@ -155,9 +155,9 @@ def collatz(n):
 	k = n
 	while k != 1:
 		if k % 2 == 0:
-			lst.append(k//2)
+			lst.append(k // 2)
 		else:
-			lst.append(3*k+1)
+			lst.append(3 * k + 1)
 		k = lst[-1]
 	return lst
 
@@ -172,8 +172,8 @@ def sumOfDivisors(a):
 		return 0
 
 	root = int(math.sqrt(a))
-	if root**2 == a: #perfect square
-		s = 1+root
+	if root ** 2 == a: #perfect square
+		s = 1 + root
 		root -= 1
 	else:
 		s = 1
@@ -188,7 +188,7 @@ def sumOfDivisors(a):
 		step = 1
 
 	while f <= root:
-		if a%f == 0:
+		if a % f == 0:
 			s = s + f + (a // f)
 		f += step
 	return s
@@ -211,10 +211,10 @@ def sumOfDigits(n):
 
 def sumOfFactorialDigits(n):
 	#preload factorials
-	f=[1,1,2,6,24,120,720,5040,40320,362880]
+	f = [1,1,2,6,24,120,720,5040,40320,362880]
 	s = 0
 	while n:
-		s += f[n%10]
+		s += f[n % 10]
 		n //= 10
 	return s 
 
@@ -222,7 +222,7 @@ def is_perm(a,b):
 	'''
 	Returns true if a is a permutation of b's digits
 	'''
-	if a==b:
+	if a == b:
 		return True
 	s_a = str(a)
 	s_b = str(b)

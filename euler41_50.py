@@ -127,9 +127,26 @@ def prob50():
     The longest sum of consecutive primes below one-thousand that adds to a prime, contains 21 terms, and is equal to 953.
     Which prime, below one-million, can be written as the sum of the most consecutive primes?
     '''
-    primes = utils.genPrimes(100)
-    cumulSum = [sum(primes[0:i]) for i,p in enumerate(primes)][1::]
-    return cumulSum
+    primes = utils.genPrimes(1000000)
+    reversed = primes[::-1]
+    
+    maxLen = 0
+    maxSequence = []
+    for start_index in range(10):
+        for i in reversed:
+            total = 0
+            j = start_index
+            while total < i:
+                total += primes[j]
+                j += 1
+                if(total == i):
+                    sequence = primes[start_index:j]
+                    if(len(sequence) > len(maxSequence)):                       
+                       maxSequence = sequence
+                    #   print(sequence,i)
+
+  #  cumulSum = [sum(primes[0:i]) for i,p in enumerate(primes)][1::]
+    return maxSequence,sum(maxSequence)
 
 
 
